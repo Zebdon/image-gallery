@@ -24,6 +24,11 @@
   margin-top: 8px;
 }
 
+.image-card.selected {
+  border: 3px solid #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
 .btn-delete {
   margin-top: 8px;
   padding: 6px 14px;

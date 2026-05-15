@@ -1,13 +1,28 @@
-<div class="gallery-container">
+<div class="gallery-wrapper">
 
-  @for (image of images(); track image.id) {
-
-    <app-image-item
-      [image]="image"
-      [isFeatured]="image.id === featuredImageId()"
-      (deleteImage)="removeImage(image.id)">
-    </app-image-item>
-
+  @if (selectedImageIds().size > 0) {
+    <div class="selection-bar">
+      <span>{{ selectedImageIds().size }} imagen(es) seleccionada(s)</span>
+      <button type="button" class="btn-delete-all" (click)="removeSelected()">
+        🗑 Borrar seleccionadas
+      </button>
+    </div>
   }
+
+  <div class="gallery-container">
+
+    @for (image of images(); track image.id) {
+
+      <app-image-item
+        [image]="image"
+        [isFeatured]="image.id === featuredImageId()"
+        [isSelected]="selectedImageIds().has(image.id)"
+        (deleteImage)="removeImage(image.id)"
+        (selectImage)="toggleSelection(image.id)">
+      </app-image-item>
+
+    }
+
+  </div>
 
 </div>
