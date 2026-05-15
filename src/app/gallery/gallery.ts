@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Image } from '../interfaces/image-interface';
 import { ImageItem } from '../image-item/image-item';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [ImageItem],
+  imports: [ImageItem, ReactiveFormsModule],
   templateUrl: './gallery.html',
   styleUrl: './gallery.css',
 })
@@ -20,6 +21,25 @@ export class Gallery {
   featuredImageId = signal<string>(this.images()[0]?.id || '');
 
   selectedImageIds = signal<Set<string>>(new Set());
+
+  addImageForm = new FormGroup({
+    src: new FormControl('', [Validators.required, Validators.pattern('https?://.+')]),
+    alt: new FormControl('', [Validators.required, Validators.minLength(3)]),
+  });
+
+  addImage(): void {
+    if (this.addImageForm.invalid) return;
+
+    const { src, alt } = this.addImageForm.value;
+    const newImage: Image = {
+      id: Date.now().toString(),
+      src: src!,
+      alt: alt!,
+    };
+
+    this.images.update(current => [...current, newImage]);
+    this.addImageForm.reset();
+  }
 
   removeImage(id: string): void {
     const confirmed = window.confirm('¿Estás seguro de que quieres eliminar esta imagen?');

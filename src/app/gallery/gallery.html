@@ -1,5 +1,53 @@
 <div class="gallery-wrapper">
 
+  <!-- Formulario para añadir imágenes -->
+  <form class="add-image-form" [formGroup]="addImageForm" (ngSubmit)="addImage()">
+    <h2>Añadir imagen</h2>
+
+    <div class="form-field">
+      <label for="src">URL de la imagen</label>
+      <input
+        id="src"
+        type="url"
+        formControlName="src"
+        placeholder="https://ejemplo.com/imagen.jpg"
+      />
+      @if (addImageForm.controls.src.invalid && addImageForm.controls.src.touched) {
+        <span class="form-error">
+          @if (addImageForm.controls.src.hasError('required')) {
+            La URL es obligatoria.
+          } @else if (addImageForm.controls.src.hasError('pattern')) {
+            Debe ser una URL válida (https://...).
+          }
+        </span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="alt">Descripción</label>
+      <input
+        id="alt"
+        type="text"
+        formControlName="alt"
+        placeholder="Ej: Un gato en el jardín"
+      />
+      @if (addImageForm.controls.alt.invalid && addImageForm.controls.alt.touched) {
+        <span class="form-error">
+          @if (addImageForm.controls.alt.hasError('required')) {
+            La descripción es obligatoria.
+          } @else if (addImageForm.controls.alt.hasError('minlength')) {
+            Mínimo 3 caracteres.
+          }
+        </span>
+      }
+    </div>
+
+    <button type="submit" class="btn-submit" [disabled]="addImageForm.invalid">
+      + Añadir imagen
+    </button>
+  </form>
+
+  <!-- Barra de selección múltiple -->
   @if (selectedImageIds().size > 0) {
     <div class="selection-bar">
       <span>{{ selectedImageIds().size }} imagen(es) seleccionada(s)</span>
@@ -9,6 +57,7 @@
     </div>
   }
 
+  <!-- Galería -->
   <div class="gallery-container">
 
     @for (image of images(); track image.id) {
