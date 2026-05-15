@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Image } from '../interfaces/image-interface';
 
 @Component({
@@ -11,7 +11,13 @@ import { Image } from '../interfaces/image-interface';
 export class ImageItem {
 
   image = input.required<Image>();
-
   isFeatured = input(false);
+
+  deleteImage = output<string>();
+
+  onDeleteClick(event: MouseEvent): void {
+    event.stopPropagation();
+    this.deleteImage.emit(this.image().id);
+  }
 
 }

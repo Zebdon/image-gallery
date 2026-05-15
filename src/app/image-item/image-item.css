@@ -23,3 +23,19 @@
   font-weight: bold;
   margin-top: 8px;
 }
+
+.btn-delete {
+  margin-top: 8px;
+  padding: 6px 14px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s;
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
+}
